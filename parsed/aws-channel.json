@@ -1,0 +1,202 @@
+[
+  {
+    "channel": "AWS",
+    "thread_title": "AWS Credit Issues",
+    "messages": [
+      {
+        "user": "Sarah_Johnson",
+        "timestamp": "2025-03-15 10:23 AM",
+        "text": "Hi everyone, I've run out of credits for my AWS account. Is anyone else having this issue? "
+      },
+      {
+        "user": "Prof_Martinez",
+        "timestamp": "2025-03-15 10:30 AM",
+        "text": "@Sarah_Johnson This happens sometimes at this point in the semester. I'll send you a DM with instructions on how to request additional credits through the education program. "
+      },
+      {
+        "user": "Sarah_Johnson",
+        "timestamp": "2025-03-15 10:35 AM",
+        "text": "@Prof_Martinez Thank you! I just applied for the additional credits. "
+      },
+      {
+        "user": "TA_Wong",
+        "timestamp": "2025-03-15 11:05 AM",
+        "text": "@Sarah_Johnson and others: Just a reminder to everyone to set up billing alerts in AWS so you get notified before running out of credits. Here's how: 1) Go to Billing Dashboard 2) Select \"Budgets\" 3) Create a budget with alert at 80% of your total credits. "
+      },
+      {
+        "user": "Sarah_Johnson",
+        "timestamp": "2025-03-15 11:10 AM",
+        "text": "@TA_Wong Thanks for the tip! Just set this up. "
+      }
+    ]
+  },
+  {
+    "channel": "AWS",
+    "thread_title": "SageMaker VPC Configuration Issues",
+    "messages": [
+      {
+        "user": "Alex_Chen",
+        "timestamp": "2025-03-18 2:42 PM",
+        "text": "I'm getting an error trying to set up SageMaker for our NYC TLC taxi data processing: \"The security group 'sg-0123456789abcdef0' does not exist\" when trying to create a notebook instance. Any ideas? "
+      },
+      {
+        "user": "TA_Patel",
+        "timestamp": "2025-03-18 2:55 PM",
+        "text": "@Alex_Chen Are you using the default VPC or did you create a custom one? "
+      },
+      {
+        "user": "Alex_Chen",
+        "timestamp": "2025-03-18 3:01 PM",
+        "text": "@TA_Patel I created a custom VPC following the lab guide, but something seems wrong with the security group references. "
+      },
+      {
+        "user": "TA_Patel",
+        "timestamp": "2025-03-18 3:10 PM",
+        "text": "@Alex_Chen I think I see the issue. The security group ID format in your error looks correct but it might be from a different region or account. Make sure you're in the same region where you created your security group. Can you share a screenshot of your VPC console? "
+      },
+      {
+        "user": "Alex_Chen",
+        "timestamp": "2025-03-18 3:15 PM",
+        "text": "@TA_Patel You're right! I was in us-east-1 but my security group was created in us-west-2. Switching regions fixed it. Thanks! "
+      },
+      {
+        "user": "TA_Patel",
+        "timestamp": "2025-03-18 3:20 PM",
+        "text": "@Alex_Chen Great! A common gotcha with AWS is resources are region-specific. Always check your region in the top-right corner. "
+      }
+    ]
+  },
+  {
+    "channel": "AWS",
+    "thread_title": "IAM Role for EC2 to S3",
+    "messages": [
+      {
+        "user": "Maya_Williams",
+        "timestamp": "2025-03-20 9:17 AM",
+        "text": "I'm trying to access the Amazon product reviews dataset from my EC2 instance, but keep getting \"Access Denied\" errors when trying to read the S3 bucket. Help! "
+      },
+      {
+        "user": "Jamie_Rodriguez",
+        "timestamp": "2025-03-20 9:25 AM",
+        "text": "@Maya_Williams Did you attach an IAM role to your EC2 instance? "
+      },
+      {
+        "user": "Maya_Williams",
+        "timestamp": "2025-03-20 9:30 AM",
+        "text": "@Jamie_Rodriguez Yes, I attached the \"LabRole\" that was mentioned in the instructions. Should I have created a custom one? "
+      },
+      {
+        "user": "Prof_Martinez",
+        "timestamp": "2025-03-20 9:42 AM",
+        "text": "@Maya_Williams The LabRole should have S3 read permissions, but let's check the specific policies. Can you run `aws iam list-attached-role-policies --role-name LabRole` from your instance and share what you see? "
+      },
+      {
+        "user": "Maya_Williams",
+        "timestamp": "2025-03-20 9:50 AM",
+        "text": "@Prof_Martinez I ran the command and don't see any S3 policies attached: ``` { \"AttachedPolicies\": [ { \"PolicyName\": \"AmazonEC2FullAccess\", \"PolicyArn\": \"arn:aws:iam::aws:policy/AmazonEC2FullAccess\" } ] } ``` "
+      },
+      {
+        "user": "TA_Wong",
+        "timestamp": "2025-03-20 10:01 AM",
+        "text": "@Maya_Williams That's the issue! The LabRole should have had AmazonS3ReadOnlyAccess policy too. Let's attach it: 1. Go to IAM console 2. Click on \"Roles\" and find \"LabRole\" 3. Click \"Attach policies\" 4. Search for and attach \"AmazonS3ReadOnlyAccess\" Then give it a few minutes and try again. "
+      },
+      {
+        "user": "Maya_Williams",
+        "timestamp": "2025-03-20 10:15 AM",
+        "text": "@TA_Wong That worked perfectly! I can now access the Amazon product reviews data from my EC2 instance. Thank you so much! "
+      },
+      {
+        "user": "TA_Wong",
+        "timestamp": "2025-03-20 10:18 AM",
+        "text": "@Maya_Williams Glad to hear it! This is a common issue when setting up AWS for big data projects. Always check your IAM permissions first when you get access denied errors. "
+      }
+    ]
+  },
+  {
+    "channel": "AWS",
+    "thread_title": "EMR Cluster for NYC TLC Data",
+    "messages": [
+      {
+        "user": "David_Kim",
+        "timestamp": "2025-03-22 1:05 PM",
+        "text": "Has anyone successfully set up an EMR cluster for processing the NYC TLC dataset? We're trying to analyze the 2023 yellow taxi data (~20GB) and I'm wondering what instance types work well without breaking the bank. "
+      },
+      {
+        "user": "Leila_Hassan",
+        "timestamp": "2025-03-22 1:12 PM",
+        "text": "@David_Kim I used a cluster with 1 m5.xlarge master and 2 m5.large core nodes. Worked well for the taxi data and cost about $3 in credits for a 4-hour analysis session. "
+      },
+      {
+        "user": "David_Kim",
+        "timestamp": "2025-03-22 1:17 PM",
+        "text": "@Leila_Hassan Thanks! Did you use Spark or Hive for your analysis? "
+      },
+      {
+        "user": "Leila_Hassan",
+        "timestamp": "2025-03-22 1:25 PM",
+        "text": "@David_Kim I used PySpark. Here's what my cluster config looked like: ``` aws emr create-cluster \\ --name \"TLC-Analysis\" \\ --release-label emr-6.10.0 \\ --applications Name=Spark \\ --ec2-attributes KeyName=my-key-pair \\ --instance-type m5.xlarge \\ --instance-count 3 \\ --use-default-roles ``` "
+      },
+      {
+        "user": "Prof_Martinez",
+        "timestamp": "2025-03-22 1:40 PM",
+        "text": "@David_Kim @Leila_Hassan Good discussion! For the NYC TLC dataset analysis, I recommend everyone also add spot instances to save on costs: ``` --instance-groups InstanceGroupType=MASTER,InstanceType=m5.xlarge,InstanceCount=1 InstanceGroupType=CORE,InstanceType=m5.large,InstanceCount=2,BidPrice=0.13 ``` This can reduce costs by 70% compared to on-demand pricing! "
+      },
+      {
+        "user": "David_Kim",
+        "timestamp": "2025-03-22 1:45 PM",
+        "text": "@Prof_Martinez That's really helpful! Should we be concerned about spot instances terminating during our analysis? "
+      },
+      {
+        "user": "Prof_Martinez",
+        "timestamp": "2025-03-22 1:50 PM",
+        "text": "@David_Kim Good question. For these instance types, the spot market is quite stable. But yes, always implement checkpointing in your Spark code: ```python spark.sparkContext.setCheckpointDir(\"s3://your-bucket/checkpoints/\") df.checkpoint() ``` This way, if an instance terminates, you won't lose all your work. "
+      },
+      {
+        "user": "David_Kim",
+        "timestamp": "2025-03-22 1:55 PM",
+        "text": "@Prof_Martinez Perfect, thank you! I'll set up my cluster today. "
+      }
+    ]
+  },
+  {
+    "channel": "AWS",
+    "thread_title": "SageMaker Memory Issues",
+    "messages": [
+      {
+        "user": "Tyler_Washington",
+        "timestamp": "2025-03-25 11:20 AM",
+        "text": "My SageMaker notebook keeps crashing when I try to load the full Amazon reviews dataset. The error says \"MemoryError\". I'm using the ml.t3.medium instance type. Any suggestions? "
+      },
+      {
+        "user": "TA_Patel",
+        "timestamp": "2025-03-25 11:30 AM",
+        "text": "@Tyler_Washington The ml.t3.medium only has 4GB of RAM, which isn't enough for the full Amazon reviews dataset. You have a few options: 1. Upgrade to ml.t3.large or ml.m5.xlarge 2. Use Dask or PySpark to process the data in chunks 3. Work with a subset of the data for development, then scale up "
+      },
+      {
+        "user": "Tyler_Washington",
+        "timestamp": "2025-03-25 11:35 AM",
+        "text": "@TA_Patel Thanks! How do I upgrade my instance type? Will I lose my work? "
+      },
+      {
+        "user": "TA_Patel",
+        "timestamp": "2025-03-25 11:42 AM",
+        "text": "@Tyler_Washington You'll need to: 1. Stop your current notebook instance 2. From the SageMaker console, select your notebook 3. Click \"Actions\" -> \"Update settings\" 4. Change the instance type 5. Start your instance again You won't lose your work as long as you've saved your notebooks. All data in the /home/ec2-user/SageMaker directory persists between restarts and instance changes. "
+      },
+      {
+        "user": "Tyler_Washington",
+        "timestamp": "2025-03-25 11:50 AM",
+        "text": "@TA_Patel Perfect! Upgrading to ml.t3.large worked. I can now load the data. "
+      },
+      {
+        "user": "TA_Wong",
+        "timestamp": "2025-03-25 11:55 AM",
+        "text": "@Tyler_Washington @TA_Patel Just to add: for everyone working with the Amazon reviews data, consider using the SageMaker Data Wrangler feature to preprocess and sample the data. It's more efficient than loading everything into memory at once. "
+      },
+      {
+        "user": "Tyler_Washington",
+        "timestamp": "2025-03-25 12:00 PM",
+        "text": "@TA_Wong Thanks for the tip! I'll check that out. "
+      }
+    ]
+  }
+]

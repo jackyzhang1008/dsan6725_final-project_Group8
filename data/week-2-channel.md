@@ -1,4 +1,4 @@
-# Week 2 Channel - Shell Programming for Big Data
+# Channel week 2 - Shell Programming for Big Data
 
 ## Thread: AWK Pattern Matching Issues
 **Leila_Hassan** [2025-03-08 9:15 AM]  

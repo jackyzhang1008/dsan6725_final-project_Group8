@@ -1,0 +1,202 @@
+[
+  {
+    "channel": "week 1 - Introduction to Big Data",
+    "thread_title": "Pandas Memory Issues",
+    "messages": [
+      {
+        "user": "Jordan_Lee",
+        "timestamp": "2025-03-01 2:15 PM",
+        "text": "I'm trying to load the NYC TLC dataset for January 2023 using pandas, but I keep getting a memory error. My code is: ```python import pandas as pd df = pd.read_csv('yellow_tripdata_2023-01.csv') ``` My laptop has 8GB RAM. Any suggestions? "
+      },
+      {
+        "user": "TA_Wong",
+        "timestamp": "2025-03-01 2:20 PM",
+        "text": "@Jordan_Lee The full NYC TLC dataset is quite large! Try using the `chunksize` parameter: ```python chunks = pd.read_csv('yellow_tripdata_2023-01.csv', chunksize=100000) # Then you can process each chunk separately for chunk in chunks: # Process the chunk print(chunk.shape) ``` "
+      },
+      {
+        "user": "Jordan_Lee",
+        "timestamp": "2025-03-01 2:25 PM",
+        "text": "@TA_Wong That worked! Now I'm able to process the data in smaller chunks. What's the best way to combine results from all chunks? "
+      },
+      {
+        "user": "TA_Wong",
+        "timestamp": "2025-03-01 2:32 PM",
+        "text": "@Jordan_Lee It depends on what you're trying to do. If you need aggregate statistics, you can compute them incrementally: ```python total_count = 0 sum_fare = 0 for chunk in chunks: total_count += len(chunk) sum_fare += chunk['fare_amount'].sum() average_fare = sum_fare / total_count ``` "
+      },
+      {
+        "user": "Prof_Martinez",
+        "timestamp": "2025-03-01 2:40 PM",
+        "text": "@Jordan_Lee @TA_Wong Good discussion! This is exactly why we need big data tools. For week 1, we're using pandas to understand the limitations of single-machine processing. In future weeks, we'll look at distributed computing with Spark which handles these datasets more naturally. "
+      },
+      {
+        "user": "Jordan_Lee",
+        "timestamp": "2025-03-01 2:45 PM",
+        "text": "@Prof_Martinez @TA_Wong Thanks! Looking forward to learning Spark! "
+      }
+    ]
+  },
+  {
+    "channel": "week 1 - Introduction to Big Data",
+    "thread_title": "Pandas DataFrame Manipulation",
+    "messages": [
+      {
+        "user": "Aisha_Patel",
+        "timestamp": "2025-03-02 10:05 AM",
+        "text": "I'm trying to filter the Amazon product reviews dataset to only include reviews with 4 or 5 stars, but my code isn't working: ```python filtered_df = amazon_df[amazon_df.stars >= 4] ``` I'm getting a KeyError: 'stars' "
+      },
+      {
+        "user": "Jamie_Rodriguez",
+        "timestamp": "2025-03-02 10:12 AM",
+        "text": "@Aisha_Patel Can you share what columns are in your dataframe? You can use `amazon_df.columns` to check. "
+      },
+      {
+        "user": "Aisha_Patel",
+        "timestamp": "2025-03-02 10:15 AM",
+        "text": "@Jamie_Rodriguez Here's what I get: ``` Index(['marketplace', 'customer_id', 'review_id', 'product_id', 'product_parent', 'product_title', 'product_category', 'star_rating', 'helpful_votes', 'total_votes', 'vine', 'verified_purchase', 'review_headline', 'review_body', 'review_date'], dtype='object') ``` "
+      },
+      {
+        "user": "Jamie_Rodriguez",
+        "timestamp": "2025-03-02 10:20 AM",
+        "text": "@Aisha_Patel I see the issue! The column is called 'star_rating' not 'stars'. Try: ```python filtered_df = amazon_df[amazon_df.star_rating >= 4] ``` "
+      },
+      {
+        "user": "Aisha_Patel",
+        "timestamp": "2025-03-02 10:23 AM",
+        "text": "@Jamie_Rodriguez That worked! Thank you so much! "
+      },
+      {
+        "user": "TA_Patel",
+        "timestamp": "2025-03-02 10:30 AM",
+        "text": "@Aisha_Patel Just a quick tip: I find it helpful to always check `.head()` and `.info()` when working with a new dataset, especially public ones like the Amazon reviews, as column names can sometimes be different than expected: ```python print(amazon_df.head()) print(amazon_df.info()) ``` "
+      },
+      {
+        "user": "Aisha_Patel",
+        "timestamp": "2025-03-02 10:35 AM",
+        "text": "@TA_Patel Thanks for the tip! That's a good habit to develop. "
+      }
+    ]
+  },
+  {
+    "channel": "week 1 - Introduction to Big Data",
+    "thread_title": "Pandas Time Series Analysis",
+    "messages": [
+      {
+        "user": "Marcus_Brown",
+        "timestamp": "2025-03-03 3:45 PM",
+        "text": "I'm trying to analyze ride patterns in the NYC TLC data by hour of day, but I'm having trouble converting the 'tpep_pickup_datetime' column to datetime. Here's my code: ```python df['pickup_time'] = pd.to_datetime(df['tpep_pickup_datetime']) ``` But I'm getting an error: \"ValueError: Unknown string format\" "
+      },
+      {
+        "user": "TA_Wong",
+        "timestamp": "2025-03-03 3:52 PM",
+        "text": "@Marcus_Brown Can you share the first few values from the 'tpep_pickup_datetime' column? You can use: ```python print(df['tpep_pickup_datetime'].head()) ``` "
+      },
+      {
+        "user": "Marcus_Brown",
+        "timestamp": "2025-03-03 3:58 PM",
+        "text": "@TA_Wong Here's what I get: ``` 0    2023-01-01 00:32:10 1    2023-01-01 00:38:22 2    2023-01-01 00:45:09 3    2023-01-01 00:12:56 4    2023-01-01 00:27:14 Name: tpep_pickup_datetime, dtype: object ``` "
+      },
+      {
+        "user": "TA_Wong",
+        "timestamp": "2025-03-03 4:05 PM",
+        "text": "@Marcus_Brown That's strange. Those format should work with `pd.to_datetime()`. Let's try with an explicit format: ```python df['pickup_time'] = pd.to_datetime(df['tpep_pickup_datetime'], format='%Y-%m-%d %H:%M:%S') ``` Also, check if there are any null values: ```python print(df['tpep_pickup_datetime'].isnull().sum()) ``` "
+      },
+      {
+        "user": "Marcus_Brown",
+        "timestamp": "2025-03-03 4:12 PM",
+        "text": "@TA_Wong No null values in that column. The explicit format worked! Now I'm able to extract the hour: ```python df['hour'] = df['pickup_time'].dt.hour hourly_rides = df.groupby('hour').size() ``` Thanks for your help! "
+      },
+      {
+        "user": "Prof_Martinez",
+        "timestamp": "2025-03-03 4:20 PM",
+        "text": "@Marcus_Brown Great work! Time series analysis is quite common in big data projects. For those working with NYC TLC data, remember that analyzing patterns by hour, day of week, and month can reveal interesting insights about urban mobility. "
+      },
+      {
+        "user": "Marcus_Brown",
+        "timestamp": "2025-03-03 4:25 PM",
+        "text": "@Prof_Martinez Thanks! I'm already seeing interesting patterns - rides peak during evening rush hour and weekend nights! "
+      }
+    ]
+  },
+  {
+    "channel": "week 1 - Introduction to Big Data",
+    "thread_title": "Pandas Groupby and Aggregation",
+    "messages": [
+      {
+        "user": "Zoe_Garcia",
+        "timestamp": "2025-03-04 11:10 AM",
+        "text": "I'm trying to analyze the Amazon product reviews by category and star rating. Is there an efficient way to count reviews and average rating by product category? "
+      },
+      {
+        "user": "TA_Patel",
+        "timestamp": "2025-03-04 11:18 AM",
+        "text": "@Zoe_Garcia Yes, you can use pandas groupby with multiple aggregations: ```python category_stats = amazon_df.groupby('product_category').agg({ 'review_id': 'count', 'star_rating': 'mean' }).rename(columns={'review_id': 'review_count', 'star_rating': 'avg_rating'}) print(category_stats.sort_values('review_count', ascending=False)) ``` "
+      },
+      {
+        "user": "Zoe_Garcia",
+        "timestamp": "2025-03-04 11:25 AM",
+        "text": "@TA_Patel That worked great! Now I'm trying to filter to only include categories with at least 1000 reviews, but I'm not sure how to do that after the groupby. "
+      },
+      {
+        "user": "TA_Patel",
+        "timestamp": "2025-03-04 11:30 AM",
+        "text": "@Zoe_Garcia You can use the `.filter()` method or just filter the resulting dataframe: ```python # Method 1: Using filter() filtered_stats = amazon_df.groupby('product_category').filter(lambda x: len(x) >= 1000).groupby('product_category').agg({ 'review_id': 'count', 'star_rating': 'mean' }).rename(columns={'review_id': 'review_count', 'star_rating': 'avg_rating'}) # Method 2: Filter after aggregation filtered_stats = category_stats[category_stats['review_count'] >= 1000] ``` Method 2 is usually more efficient for this case. "
+      },
+      {
+        "user": "Zoe_Garcia",
+        "timestamp": "2025-03-04 11:36 AM",
+        "text": "@TA_Patel Perfect! Method 2 worked well and was much faster. Thank you! "
+      },
+      {
+        "user": "Prof_Martinez",
+        "timestamp": "2025-03-04 11:45 AM",
+        "text": "@Zoe_Garcia Nice analysis! As a follow-up exercise, consider looking at the distribution of ratings within each category. Are some product categories more polarized (lots of 1-star and 5-star reviews) while others more centered around 3-4 stars? "
+      },
+      {
+        "user": "Zoe_Garcia",
+        "timestamp": "2025-03-04 11:52 AM",
+        "text": "@Prof_Martinez That's a great idea! I'll try to create a visualization of rating distributions by category. "
+      }
+    ]
+  },
+  {
+    "channel": "week 1 - Introduction to Big Data",
+    "thread_title": "Pandas Visualization",
+    "messages": [
+      {
+        "user": "Tyler_Washington",
+        "timestamp": "2025-03-05 1:30 PM",
+        "text": "I'm trying to visualize the distribution of trip distances in the NYC TLC dataset but matplotlib is giving me weird results because there are some extreme outliers. Any suggestions? "
+      },
+      {
+        "user": "Jamie_Rodriguez",
+        "timestamp": "2025-03-05 1:38 PM",
+        "text": "@Tyler_Washington Try setting a limit on your plot or using log scale: ```python import matplotlib.pyplot as plt import numpy as np # Option 1: Filter outliers df_filtered = df[df['trip_distance'] < 50]  # Trips less than 50 miles plt.hist(df_filtered['trip_distance'], bins=50) plt.title('Trip Distance Distribution (< 50 miles)') plt.xlabel('Distance (miles)') plt.ylabel('Count') plt.show() # Option 2: Log scale plt.hist(df['trip_distance'], bins=np.logspace(np.log10(0.1), np.log10(100), 50)) plt.xscale('log') plt.title('Trip Distance Distribution (log scale)') plt.xlabel('Distance (miles)') plt.ylabel('Count') plt.show() ``` "
+      },
+      {
+        "user": "Tyler_Washington",
+        "timestamp": "2025-03-05 1:45 PM",
+        "text": "@Jamie_Rodriguez The log scale approach worked amazingly! Now I can see there's a bimodal distribution - lots of short trips (1-3 miles) and a second peak around 15-20 miles (probably airport runs). Thanks! "
+      },
+      {
+        "user": "TA_Wong",
+        "timestamp": "2025-03-05 1:52 PM",
+        "text": "@Tyler_Washington Nice observation on the bimodal distribution! You might want to try a kernel density estimation plot too: ```python import seaborn as sns sns.kdeplot(df_filtered['trip_distance'], bw_adjust=0.5) plt.title('Trip Distance KDE') plt.xlabel('Distance (miles)') plt.show() ``` This often shows multi-modal distributions more clearly than histograms. "
+      },
+      {
+        "user": "Tyler_Washington",
+        "timestamp": "2025-03-05 2:00 PM",
+        "text": "@TA_Wong The KDE plot makes it even clearer! This is really helpful for my analysis. "
+      },
+      {
+        "user": "Prof_Martinez",
+        "timestamp": "2025-03-05 2:10 PM",
+        "text": "@Tyler_Washington Great work on the visualization! Remember that understanding your data distribution is a crucial first step in any data science project. Those airport trips you identified could be an interesting subset to analyze separately - they might have different pricing patterns, tipping behaviors, or time-of-day distributions. "
+      },
+      {
+        "user": "Tyler_Washington",
+        "timestamp": "2025-03-05 2:15 PM",
+        "text": "@Prof_Martinez Thanks for the suggestion! I'll look into comparing the airport trips with the shorter intra-city trips. "
+      }
+    ]
+  }
+]

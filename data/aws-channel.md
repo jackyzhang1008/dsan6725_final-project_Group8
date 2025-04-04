@@ -1,4 +1,4 @@
-# AWS Channel
+# Channel AWS
 
 ## Thread: AWS Credit Issues
 **Sarah_Johnson** [2025-03-15 10:23 AM]  

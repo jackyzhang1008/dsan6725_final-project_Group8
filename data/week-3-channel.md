@@ -1,4 +1,4 @@
-# Week 3 Channel - Multiprocessing with Python and Asyncio
+# Channel week 3 - Multiprocessing with Python and Asyncio
 
 ## Thread: Understanding the GIL
 **Sarah_Johnson** [2025-03-15 10:00 AM]  

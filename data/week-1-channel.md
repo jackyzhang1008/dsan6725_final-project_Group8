@@ -1,4 +1,4 @@
-# Week 1 Channel - Introduction to Big Data
+# Channel week 1 - Introduction to Big Data
 
 ## Thread: Pandas Memory Issues
 **Jordan_Lee** [2025-03-01 2:15 PM]  
