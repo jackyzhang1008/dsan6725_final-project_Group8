@@ -1,12 +1,13 @@
 [project]
-name = "ai_agents"
+name = "final_project"
 version = "0.1.0"
-description = "Tool usage, agents, memory and multi-agent"
+description = "QA_Slackbot"
 readme = "README.md"
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.10"
 dependencies = [
     "beautifulsoup4>=4.13.3",
     "colorama>=0.4.6",
+    "faiss-cpu==1.9.0",
     "googlesearch-python>=1.3.0",
     "ipykernel>=6.29.5",
     "langchain-community>=0.3.17",
